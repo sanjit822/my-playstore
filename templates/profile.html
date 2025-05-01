@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User Profile - Microsoft Play Store</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .profile-container {
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .profile-container h2 {
+      color: #0078D7;
+      margin-bottom: 20px;
+    }
+    .profile-container .profile-info {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .profile-container .profile-info img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 50%;
+      margin-right: 20px;
+    }
+    .profile-container .profile-info .info {
+      font-size: 1.2em;
+    }
+    .profile-container .profile-info .info p {
+      margin: 5px 0;
+    }
+    .profile-container .form-group {
+      margin-bottom: 20px;
+    }
+    .profile-container .form-group label {
+      display: block;
+      font-weight: bold;
+      color: #0078D7;
+      margin-bottom: 5px;
+    }
+    .profile-container .form-group input[type="text"],
+    .profile-container .form-group input[type="email"],
+    .profile-container .form-group input[type="password"],
+    .profile-container .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+    .profile-container .form-group input[type="submit"] {
+      background-color: #0078D7;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2em;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .profile-container .form-group input[type="submit"]:hover {
+      background-color: #005ba1;
+    }
+    .profile-container .logout-btn {
+      display: inline-block;
+      background-color: #f44336;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 1.2em;
+      text-decoration: none;
+      margin-top: 20px;
+    }
+    .profile-container .logout-btn:hover {
+      background-color: #d32f2f;
+    }
+    #password-strength {
+      font-size: 0.9em;
+      color: red;
+      margin-top: 5px;
+    }
+    .profile-container .image-gallery img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 10px;
+    }
+    @media (max-width: 768px) {
+      .profile-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>User Profile</h1>
+  </header>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <div class="profile-container">
+    <h2>Your Profile</h2>
+    
+    <!-- Profile Info Section -->
+    <div class="profile-info">
+      <img id="profile-image-preview" src="{{ url_for('static', filename='images/staff2.png') }}" alt="Profile Picture" />
+      <div class="info">
+        <p><strong>Username:</strong> JohnDoe</p>
+        <p><strong>Email:</strong> johndoe@example.com</p>
+        <p><strong>Member Since:</strong> January 2022</p>
+        <p><strong>Bio:</strong> This is your profile bio. You can update it anytime.</p>
+      </div>
+    </div>
+    
+    <!-- Profile Update Form -->
+    <form action="/update-profile" method="POST" enctype="multipart/form-data" id="profile-update-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="JohnDoe" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="johndoe@example.com" required />
+      </div>
+      <div class="form-group">
+        <label for="profile_picture">Change Profile Picture</label>
+        <input type="file" id="profile_picture" name="profile_picture" accept="image/*" onchange="previewImage(event)" />
+      </div>
+      <div class="form-group">
+        <label for="bio">Bio</label>
+        <textarea id="bio" name="bio" rows="4">This is your profile bio. You can update it anytime.</textarea>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Update Profile" />
+      </div>
+    </form>
+    
+    <!-- Change Password Section -->
+    <h3>Change Password</h3>
+    <form action="/change-password" method="POST">
+      <div class="form-group">
+        <label for="current_password">Current Password</label>
+        <input type="password" id="current_password" name="current_password" required />
+      </div>
+      <div class="form-group">
+        <label for="new_password">New Password</label>
+        <input type="password" id="new_password" name="new_password" required onkeyup="checkPasswordStrength()" />
+        <div id="password-strength"></div>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Change Password" />
+      </div>
+    </form>
+
+    <!-- Image Gallery -->
+    <div class="image-gallery">
+      <h4>Your Image Gallery</h4>
+      <img src="{{ url_for('static', filename='images/focus1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/scan1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/fit1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/lang1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/music1.png') }}" alt="App 4">
+    </div>
+
+    <!-- Logout Button -->
+    <a href="/logout" class="logout-btn">Log Out</a>
+  </div>
+
+  <script>
+    function previewImage(event) {
+      const reader = new FileReader();
+      reader.onload = function () {
+        const output = document.getElementById('profile-image-preview');
+        output.src = reader.result;
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function checkPasswordStrength() {
+      const password = document.getElementById('new_password').value;
+      const strengthIndicator = document.getElementById('password-strength');
+      let strength = 'Weak';
+      if (password.length >= 8) {
+        strength = 'Medium';
+      }
+      if (password.length >= 12 && /[A-Z]/.test(password) && /[0-9]/.test(password)) {
+        strength = 'Strong';
+      }
+      strengthIndicator.innerHTML = `Password Strength: ${strength}`;
+    }
+  </script>
+</body>
+</html>

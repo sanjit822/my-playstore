@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Microsoft Play Store - Home</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Segoe UI, sans-serif;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      background-color: #005a9e;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .hero {
+      background: url('your-image-path/hero.jpg') no-repeat center center;
+      background-size: cover;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: bold;
+      text-shadow: 2px 2px 4px #000;
+    }
+    .section-title {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 1.8rem;
+      color: #333;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .search-box input {
+      padding: 10px;
+      width: 60%;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 250px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+    .card-body {
+      padding: 15px;
+    }
+    .card-body h3 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    .card-body p {
+      font-size: 0.9rem;
+      color: #666;
+    }
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #ddd;
+      margin-top: 40px;
+    }
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+    }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 400px;
+    }
+    .close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Microsoft Play Store</h1>
+    <p>Your hub for Apps and Games</p>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+  </nav>
+
+  <div class="hero">
+    Discover Top Picks Just for You
+  </div>
+
+  <h2 class="section-title">Featured Apps & Games</h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="Search apps or games..." onkeyup="filterCards()">
+  </div>
+
+  <div class="gallery" id="gallery">
+    <div class="card" onclick="showDetails('Productive Pro', 'Boost your workflow with smart planning tools.')">
+      <img src="{{ url_for('static', filename='images/app1.png') }}" alt="App 1">
+      <div class="card-body">
+        <h3>Productive Pro</h3>
+        <p>Boost your workflow with smart planning tools.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showDetails('GameX Racer', 'Speed into high-octane racing action.')">
+      <img src="{{ url_for('static', filename='images/app2.png') }}" alt="App 2">
+      <div class="card-body">
+        <h3>GameX Racer</h3>
+        <p>Speed into high-octane racing action.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showDetails('Mind Master', 'Challenge your brain with clever puzzles.')">
+      <img src="{{ url_for('static', filename='images/app3.png') }}" alt="App 3">
+      <div class="card-body">
+        <h3>Mind Master</h3>
+        <p>Challenge your brain with clever puzzles.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showDetails('Photo Fixer', 'Edit, filter, and enhance your images like a pro.')">
+      <img src="{{ url_for('static', filename='images/app4.png') }}" alt="App 4">
+      <div class="card-body">
+        <h3>Photo Fixer</h3>
+        <p>Edit, filter, and enhance your images like a pro.</p>
+      </div>
+    </div>
+    <div class="card" onclick="showDetails('Space Defender', 'Defend galaxies with futuristic weapons.')">
+      <img src="{{ url_for('static', filename='images/app5.png') }}" alt="App 5">
+      <div class="card-body">
+        <h3>Space Defender</h3>
+        <p>Defend galaxies with futuristic weapons.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2025 Microsoft Play Store. All rights reserved.
+  </footer>
+
+  <button id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+  <!-- Modal -->
+  <div id="detailsModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalDesc"></p>
+    </div>
+  </div>
+
+  <script>
+    // Scroll to Top functionality
+    window.onscroll = function () {
+      document.getElementById("scrollTopBtn").style.display = window.scrollY > 100 ? "block" : "none";
+    };
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // Search filter
+    function filterCards() {
+      const input = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".gallery .card");
+      cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(input) ? "block" : "none";
+      });
+    }
+
+    // Modal Pop-up
+    function showDetails(title, desc) {
+      document.getElementById("modalTitle").innerText = title;
+      document.getElementById("modalDesc").innerText = desc;
+      document.getElementById("detailsModal").style.display = "block";
+    }
+    function closeModal() {
+      document.getElementById("detailsModal").style.display = "none";
+    }
+  </script>
+
+</body>
+</html>

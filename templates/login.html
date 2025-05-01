@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - Microsoft Play Store</title>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background: #f0f0f0 url('images/background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      background-color: #005a9e;
+      padding: 10px;
+    }
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .login-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(-30px);}
+      to {opacity: 1; transform: translateY(0);}
+    }
+
+    .login-container h2 {
+      color: #0078D7;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .login-container input[type="text"],
+    .login-container input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1em;
+    }
+
+    .toggle-password {
+      float: right;
+      margin-top: -30px;
+      margin-right: 10px;
+      cursor: pointer;
+      font-size: 0.9em;
+      color: #0078D7;
+    }
+
+    .login-container input[type="submit"] {
+      width: 100%;
+      background-color: #0078D7;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-container input[type="submit"]:hover {
+      background-color: #005ba1;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    .remember-me input {
+      margin-right: 8px;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin-top: 10px;
+      color: #0078D7;
+      text-decoration: none;
+    }
+
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+
+    .signup-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .signup-link a {
+      color: #0078D7;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+
+    .gallery {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+    }
+
+    .gallery img {
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      object-fit: cover;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    @media (max-width: 600px) {
+      .login-container {
+        margin: 20px;
+        padding: 20px;
+      }
+      .gallery img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Login to Microsoft Play Store</h1>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <div class="login-container">
+    <h2>Login</h2>
+    <form action="/login" method="POST">
+      <input type="text" name="username" placeholder="Username or Email" required />
+      <input type="password" name="password" id="password" placeholder="Password" required />
+      <span class="toggle-password" onclick="togglePassword()">Show</span>
+      <div class="remember-me">
+        <input type="checkbox" id="remember" name="remember" />
+        <label for="remember">Remember Me</label>
+      </div>
+      <input type="submit" value="Login" />
+    </form>
+    <a href="#" class="forgot-password">Forgot Password?</a>
+    <div class="signup-link">
+      <p>Don't have an account? <a href="/signup">Sign up</a></p>
+    </div>
+  </div>
+
+  <!-- Image Gallery Section -->
+  <div class="gallery">
+    <img src="{{ url_for('static', filename='images/logo1.png') }}" alt="Team Member 2" />
+    <img src="{{ url_for('static', filename='images/logo2.png') }}" alt="Team Member 2" />
+    <img src="{{ url_for('static', filename='images/logo3.png') }}" alt="Team Member 2" />
+    <img src="{{ url_for('static', filename='images/logo4.png') }}" alt="Team Member 2" />
+    <img src="{{ url_for('static', filename='images/logo5.png') }}" alt="Team Member 2" />
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passInput = document.getElementById("password");
+      const toggleText = document.querySelector(".toggle-password");
+      if (passInput.type === "password") {
+        passInput.type = "text";
+        toggleText.textContent = "Hide";
+      } else {
+        passInput.type = "password";
+        toggleText.textContent = "Show";
+      }
+    }
+
+    console.log("Login page loaded.");
+  </script>
+</body>
+</html>

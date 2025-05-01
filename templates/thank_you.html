@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Thank You - Microsoft Play Store</title>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #0078D7;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    p {
+      font-size: 1.2em;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+    .carousel {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .carousel img {
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin: 0 10px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .carousel img:hover {
+      transform: scale(1.05);
+    }
+    .social-icons {
+      margin-top: 20px;
+    }
+    .social-icons a {
+      margin: 0 15px;
+      color: #0078D7;
+      font-size: 24px;
+      text-decoration: none;
+    }
+    .feedback-section {
+      margin-top: 30px;
+      background-color: #0078D7;
+      color: white;
+      padding: 20px;
+      border-radius: 8px;
+    }
+    .feedback-section input,
+    .feedback-section textarea {
+      width: 80%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .feedback-section button {
+      padding: 10px 20px;
+      background: #005a9e;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .feedback-section button:hover {
+      background: #0078D7;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('apps') }}">Apps</a>
+        <a href="{{ url_for('games') }}">Games</a>
+        <a href="{{ url_for('downloads') }}">Downloads</a>
+        <a href="{{ url_for('search') }}">Search</a>
+        <a href="{{ url_for('about') }}">About</a>
+        <a href="{{ url_for('admin') }}">Admin</a>
+        <a href="{{ url_for('details') }}">Details</a>
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('profile') }}">Profile</a>
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="{{ url_for('thank_you') }}">Thank You</a>
+    </nav>
+
+    <h1>Thank You!</h1>
+    <p>Your message has been received. We will get back to you shortly.</p>
+
+    <!-- Carousel with Images -->
+    <div class="carousel">
+      <img src="{{ url_for('static', filename='images/focus1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/lang1.png') }}" alt="App 4">
+      <img src="{{ url_for('static', filename='images/scan1.png') }}" alt="App 4">
+    </div>
+
+    <!-- Social Media Icons -->
+    <div class="social-icons">
+        <a href="#" title="Follow us on Facebook"><i class="fab fa-facebook"></i></a>
+        <a href="#" title="Follow us on Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" title="Follow us on Instagram"><i class="fab fa-instagram"></i></a>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="feedback-section">
+        <h3>We'd love to hear your feedback!</h3>
+        <input type="text" placeholder="Your Name" id="feedback-name">
+        <textarea placeholder="Your Feedback" id="feedback-message"></textarea>
+        <button onclick="submitFeedback()">Submit Feedback</button>
+    </div>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script> <!-- For social media icons -->
+
+    <script>
+        // Example of handling feedback submission
+        function submitFeedback() {
+            const name = document.getElementById('feedback-name').value;
+            const message = document.getElementById('feedback-message').value;
+            if(name && message) {
+                alert(`Thank you for your feedback, ${name}!`);
+                document.getElementById('feedback-name').value = '';
+                document.getElementById('feedback-message').value = '';
+            } else {
+                alert('Please fill in both fields.');
+            }
+        }
+    </script>
+</body>
+</html>

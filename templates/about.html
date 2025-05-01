@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us - Microsoft Play Store</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .about-container {
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .about-container h2 {
+      margin-bottom: 20px;
+      color: #0078D7;
+    }
+    .about-container p {
+      color: #555;
+      line-height: 1.6;
+    }
+    .team-section {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+    }
+    .team-member {
+      text-align: center;
+      width: 30%;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+    .team-member:hover {
+      transform: scale(1.1);
+    }
+    .team-member img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .team-member h4 {
+      margin-top: 10px;
+      color: #0078D7;
+    }
+    .team-member p {
+      color: #555;
+    }
+    .feedback-form {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f0f0f0;
+      border-radius: 8px;
+    }
+    .feedback-form input, .feedback-form textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    .feedback-form button {
+      padding: 10px 20px;
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .feedback-form button:hover {
+      background-color: #005ba1;
+    }
+    @media (max-width: 768px) {
+      .team-member {
+        width: 45%;
+      }
+    }
+    @media (max-width: 480px) {
+      .team-member {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>About Us</h1>
+  </header>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <div class="about-container">
+    <h2>Our Mission</h2>
+    <p>At Microsoft Play Store, our mission is to provide the best digital marketplace for apps and games, bringing the latest innovations right to your fingertips. We aim to make the digital experience seamless, enjoyable, and enriching for every user.</p>
+
+    <h2>Our Team</h2>
+    <p>Our team consists of passionate professionals who are dedicated to bringing you an unparalleled experience. We focus on user experience, innovation, and continuously improving the platform to meet your needs.</p>
+
+    <div class="team-section">
+      <div class="team-member">
+        <img src="{{ url_for('static', filename='images/staff2.png') }}" alt="Team Member 3" />
+        <h4>John Doe</h4>
+        <p>CEO & Founder</p>
+      </div>
+      <div class="team-member">
+        <img src="{{ url_for('static', filename='images/staff5.png') }}" alt="Team Member 2" />
+        <h4>Jane Smith</h4>
+        <p>CTO</p>
+      </div>
+      <div class="team-member">
+        <img src="{{ url_for('static', filename='images/clients1.png') }}" alt="Team Member 3" />
+        <h4>Alex Johnson</h4>
+        <p>Lead Developer</p>
+      </div>
+    </div>
+
+    <h2>Our Values</h2>
+    <p>We value transparency, creativity, and customer satisfaction. Our platform is built with user feedback in mind, ensuring that every update adds value and improves your experience.</p>
+
+    <h2>Contact Us</h2>
+    <p>If you have any inquiries or feedback, feel free to reach out to us.</p>
+
+    <div class="feedback-form">
+      <h3>We'd love to hear from you!</h3>
+      <form id="feedbackForm">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+        <button type="submit">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Simple form validation and submission handling
+    document.getElementById("feedbackForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+      alert("Thank you for your feedback!");
+    });
+  </script>
+</body>
+</html>

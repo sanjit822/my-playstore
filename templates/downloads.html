@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Download Manager</title>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      margin: 0;
+      background-color: #f5f5f5;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    nav {
+      background: #eee;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #0078D7;
+      font-weight: bold;
+    }
+    .downloads {
+      max-width: 900px;
+      margin: 30px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .download-item {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #ddd;
+    }
+    .thumb {
+      width: 80px;
+      height: 80px;
+      margin-right: 20px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .details {
+      flex: 1;
+    }
+    .details h3 {
+      margin: 0 0 5px;
+    }
+    .status {
+      color: green;
+      font-weight: bold;
+    }
+    .controls button {
+      margin: 0 5px;
+      padding: 5px 10px;
+      background: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .progress {
+      width: 100%;
+      height: 10px;
+      background: #ddd;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 5px;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 70%;
+      background: #0078D7;
+    }
+    #searchBox {
+      width: 80%;
+      max-width: 400px;
+      padding: 10px;
+      margin: 20px auto;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    @media (max-width: 600px) {
+      .download-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .thumb {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Your Downloads</h1>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <input type="text" id="searchBox" placeholder="Search downloads...">
+
+  <div class="downloads" id="downloadList">
+
+    <div class="download-item">
+      <img src="{{ url_for('static', filename='images/game1.png') }}" alt="Team Member 1"  width="570px"  height="570px"/>
+      <div class="details">
+        <h3>Sky Racer</h3>
+        <p class="status">Completed</p>
+        <div class="controls">
+          <button onclick="alert('Launching Sky Racer...')">Open</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-item">
+      <img src="{{ url_for('static', filename='images/app4.png') }}" alt="App 4" width="570px"  height="570px" >
+      <div class="details">
+        <h3>Photo Editor Pro</h3>
+        <p class="status">Downloading...</p>
+        <div class="progress"><div class="progress-bar" style="width: 40%;"></div></div>
+        <div class="controls">
+          <button onclick="pauseDownload(this)">Pause</button>
+          <button onclick="cancelDownload(this)">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-item">
+      <img src="{{ url_for('static', filename='images/game2.png') }}" alt="Team Member 1" width="570px"  height="570px"/>
+      <div class="details">
+        <h3>Jungle Escape</h3>
+        <p class="status">Completed</p>
+        <div class="controls">
+          <button onclick="alert('Launching Jungle Escape...')">Open</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-item">
+      <img src="{{ url_for('static', filename='images/music1.png') }}" alt="App 4" width="570px"  height="570px">
+      <div class="details">
+        <h3>Music Mix</h3>
+        <p class="status">Downloading...</p>
+        <div class="progress"><div class="progress-bar" style="width: 60%;"></div></div>
+        <div class="controls">
+          <button onclick="pauseDownload(this)">Pause</button>
+          <button onclick="cancelDownload(this)">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="download-item">
+      <img src="{{ url_for('static', filename='images/game1.png') }}" alt="Team Member 1"  width="570px"  height="570px"/>
+      <div class="details">
+        <h3>Space Battle</h3>
+        <p class="status">Completed</p>
+        <div class="controls">
+          <button onclick="alert('Launching Space Battle...')">Open</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function pauseDownload(btn) {
+      btn.innerText = "Resume";
+      btn.onclick = function () {
+        resumeDownload(btn);
+      };
+      btn.parentElement.previousElementSibling.querySelector('.progress-bar').style.backgroundColor = "#999";
+    }
+
+    function resumeDownload(btn) {
+      btn.innerText = "Pause";
+      btn.onclick = function () {
+        pauseDownload(btn);
+      };
+      btn.parentElement.previousElementSibling.querySelector('.progress-bar').style.backgroundColor = "#0078D7";
+    }
+
+    function cancelDownload(btn) {
+      const item = btn.closest('.download-item');
+      item.querySelector('.status').innerText = "Cancelled";
+      item.querySelector('.progress-bar').style.width = "0%";
+      item.querySelector('.progress-bar').style.backgroundColor = "red";
+    }
+
+    // Search filter
+    const searchBox = document.getElementById('searchBox');
+    const downloadList = document.getElementById('downloadList');
+    searchBox.addEventListener('input', function () {
+      const filter = this.value.toLowerCase();
+      const items = downloadList.querySelectorAll('.download-item');
+      items.forEach(item => {
+        const title = item.querySelector('h3').innerText.toLowerCase();
+        item.style.display = title.includes(filter) ? "flex" : "none";
+      });
+    });
+  </script>
+
+</body>
+</html>

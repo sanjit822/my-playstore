@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - Microsoft Play Store</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    .register-container {
+      max-width: 500px;
+      margin: 50px auto;
+      padding: 30px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .register-container h2 {
+      color: #0078D7;
+      margin-bottom: 20px;
+    }
+    .register-container .form-group {
+      margin-bottom: 20px;
+    }
+    .register-container .form-group label {
+      display: block;
+      font-weight: bold;
+      color: #0078D7;
+      margin-bottom: 5px;
+    }
+    .register-container .form-group input[type="text"],
+    .register-container .form-group input[type="email"],
+    .register-container .form-group input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1.2em;
+    }
+    .register-container .form-group input[type="submit"] {
+      background-color: #0078D7;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2em;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    .register-container .form-group input[type="submit"]:hover {
+      background-color: #005ba1;
+    }
+    .register-container .login-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .register-container .login-link a {
+      color: #0078D7;
+      text-decoration: none;
+      font-size: 1.1em;
+    }
+    .register-container .login-link a:hover {
+      text-decoration: underline;
+    }
+    .image-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .image-container img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 10px 0;
+    }
+    .image-container input {
+      font-size: 1em;
+      cursor: pointer;
+      padding: 10px;
+      background-color: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .image-container input:hover {
+      background-color: #005ba1;
+    }
+    @media (max-width: 768px) {
+      .register-container {
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Register for Microsoft Play Store</h1>
+  </header>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <div class="register-container">
+    <h2>Create Your Account</h2>
+
+    <!-- Registration Form -->
+    <form action="/register" method="POST" id="registerForm">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required />
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter your password" required />
+        <button type="button" onclick="togglePasswordVisibility()">Show/Hide Password</button>
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register" />
+      </div>
+    </form>
+
+    <!-- Image Upload Section -->
+    <div class="image-container">
+      <h3>Upload Profile Images (Optional)</h3>
+      <input type="file" id="imageInput" accept="image/*" onchange="previewImages()" multiple />
+      <div id="imagePreview"></div>
+    </div>
+
+    <!-- Login Link -->
+    <div class="login-link">
+      <p>Already have an account? <a href="/login">Login here</a></p>
+    </div>
+  </div>
+
+  <script>
+    // Password visibility toggle
+    function togglePasswordVisibility() {
+      const passwordField = document.getElementById("password");
+      if (passwordField.type === "password") {
+        passwordField.type = "text";
+      } else {
+        passwordField.type = "password";
+      }
+    }
+
+    // Image preview functionality
+    function previewImages() {
+      const files = document.getElementById("imageInput").files;
+      const previewContainer = document.getElementById("imagePreview");
+      previewContainer.innerHTML = '';  // Clear previous previews
+      for (let i = 0; i < files.length; i++) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          const img = document.createElement("img");
+          img.src = e.target.result;
+          previewContainer.appendChild(img);
+        }
+        reader.readAsDataURL(files[i]);
+      }
+    }
+
+    // Basic form validation (email format check)
+    document.getElementById("registerForm").onsubmit = function(event) {
+      const email = document.getElementById("email").value;
+      const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+      if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        event.preventDefault(); // Prevent form submission
+      }
+    };
+  </script>
+</body>
+</html>

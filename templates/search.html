@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search - Microsoft Play Store</title>
+  <style>
+    body {
+      font-family: Segoe UI, sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+    }
+    header {
+      background-color: #0078D7;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      background: #0078D7;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      text-decoration: underline;
+    }
+    .search-bar {
+      max-width: 600px;
+      margin: 30px auto;
+      display: flex;
+      gap: 10px;
+    }
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .search-bar button {
+      padding: 10px 20px;
+      background: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .results {
+      max-width: 800px;
+      margin: auto;
+      padding: 20px;
+    }
+    .result-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      display: flex;
+      gap: 20px;
+    }
+    .result-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+    .result-item h3 {
+      margin: 0 0 5px;
+    }
+    .carousel {
+      margin: 30px auto;
+      max-width: 600px;
+      position: relative;
+    }
+    .carousel img {
+      width: 100%;
+      border-radius: 10px;
+    }
+    .loading-spinner {
+      text-align: center;
+      margin: 30px 0;
+      display: none;
+    }
+    .loading-spinner img {
+      width: 50px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Search Apps & Games</h1>
+  </header>
+  <nav>
+    <a href="{{ url_for('index') }}">Home</a>
+    <a href="{{ url_for('apps') }}">Apps</a>
+    <a href="{{ url_for('games') }}">Games</a>
+    <a href="{{ url_for('downloads') }}">Downloads</a>
+    <a href="{{ url_for('search') }}">Search</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('admin') }}">Admin</a>
+    <a href="{{ url_for('details') }}">Details</a>
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    <a href="{{ url_for('register') }}">Register</a>
+    <a href="{{ url_for('thank_you') }}">Thank You</a>
+  </nav>
+
+  <div class="carousel">
+    <h2>Featured Apps</h2>
+    <img src="{{ url_for('static', filename='images/music1.png') }}" alt="App 4" width="570px"  height="570px">
+    <img src="{{ url_for('static', filename='images/game1.png') }}" alt="Team Member 1"  width="570px"  height="570px"/>
+    <img src="{{ url_for('static', filename='images/game2.png') }}" alt="Team Member 1" width="570px"  height="570px"/>
+  </div>
+
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="Search by name...">
+    <button onclick="searchItems()">Search</button>
+  </div>
+
+  <div class="results" id="results"></div>
+
+  <div class="loading-spinner" id="loading-spinner">
+    <img src="https://via.placeholder.com/50x50?text=Loading" alt="Loading">
+  </div>
+
+  <script>
+    const dummyData = [
+      { name: 'Sky Racer', description: 'A fast-paced racing game', category: 'Games', image: 'https://via.placeholder.com/80x80?text=Game1' },
+      { name: 'Photo Editor Pro', description: 'Edit your photos with ease', category: 'Apps', image: 'https://via.placeholder.com/80x80?text=App1' },
+      { name: 'Jungle Escape', description: 'Adventure puzzle game', category: 'Games', image: 'https://via.placeholder.com/80x80?text=Game2' },
+    ];
+
+    function searchItems() {
+      document.getElementById('loading-spinner').style.display = 'block';  // Show loading spinner
+      const query = document.getElementById('searchInput').value.toLowerCase();
+      const results = dummyData.filter(item => item.name.toLowerCase().includes(query));
+      const resultsDiv = document.getElementById('results');
+      setTimeout(() => { // Simulate loading delay
+        resultsDiv.innerHTML = results.length ? results.map(item => `
+          <div class="result-item">
+            <img src="${item.image}" alt="${item.name}">
+            <div>
+              <h3>${item.name}</h3>
+              <p>${item.description}</p>
+            </div>
+          </div>`).join('') : '<p>No results found.</p>';
+        document.getElementById('loading-spinner').style.display = 'none';  // Hide loading spinner
+      }, 1000); // Simulate 1 second delay
+    }
+  </script>
+</body>
+</html>
